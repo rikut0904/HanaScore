@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/UI/koikoiPage.dart';
 import 'package:hana_score/UI/helpPage.dart';
+import 'package:hana_score/UI/hanaawasePage.dart';
 
 class SelectPage extends ConsumerStatefulWidget {
   const SelectPage({super.key});
@@ -81,17 +82,10 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                         elevation: 4,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const EawasePage(),
-                            //   ),
-                            // );
-                            showDialog(
-                              context: context,
-                              builder: (context) => const AlertDialog(
-                                title: Text('絵合わせ'),
-                                content: Text('絵合わせはまだ作成中です'),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HanaawasePage(),
                               ),
                             );
                           },
@@ -109,7 +103,7 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                                 ),
                                 SizedBox(height: mainCardHeight * 0.08),
                                 Text(
-                                  '絵合わせ',
+                                  '花合わせ',
                                   style: TextStyle(
                                     fontSize: mainCardWidth * 0.16,
                                     fontWeight: FontWeight.bold,
