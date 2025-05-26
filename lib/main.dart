@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/UI/selectPage.dart';
+import 'package:hana_score/UI/pc_restriction_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:io' show Platform;
 
-void main() {
+bool isMobileDevice() {
+  if (!kIsWeb) {
+    return Platform.isAndroid || Platform.isIOS;
+  }
+  return false;
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      ),
+    );
+  }
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -21,8 +45,20 @@ class _MyAppState extends ConsumerState<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        useMaterial3: true,
       ),
-      home: const SelectPage(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(1.0),
+          ),
+          child: Builder(
+            builder: (context) => kIsWeb && !isMobileDevice()
+                ? const PCRestrictionPage()
+                : const SelectPage(),
+          ),
+        );
+      },
     );
   }
 }
