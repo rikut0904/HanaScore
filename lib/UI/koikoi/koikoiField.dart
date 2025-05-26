@@ -56,17 +56,15 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => RuleSelectPage(
-                            month: ref.watch(monthProvider),
-                          )),
+                    builder:
+                        (context) =>
+                            RuleSelectPage(month: ref.watch(monthProvider)),
+                  ),
                 );
               },
               child: const Text(
                 'この月の勝者はこちらをタップ',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
           ),
