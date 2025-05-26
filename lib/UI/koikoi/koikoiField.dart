@@ -55,7 +55,10 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                 }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RuleSelectPage()),
+                  MaterialPageRoute(
+                      builder: (context) => RuleSelectPage(
+                            month: ref.watch(monthProvider),
+                          )),
                 );
               },
               child: const Text(
