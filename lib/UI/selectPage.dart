@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/UI/koikoiPage.dart';
-import 'package:hana_score/UI/eawasePage.dart';
 import 'package:hana_score/UI/helpPage.dart';
-import 'package:hana_score/UI/settingPage.dart';
 
 class SelectPage extends ConsumerStatefulWidget {
   const SelectPage({super.key});
@@ -83,10 +81,17 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                         elevation: 4,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const EawasePage(),
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const EawasePage(),
+                            //   ),
+                            // );
+                            showDialog(
+                              context: context,
+                              builder: (context) => const AlertDialog(
+                                title: Text('絵合わせ'),
+                                content: Text('絵合わせはまだ作成中です'),
                               ),
                             );
                           },
@@ -167,10 +172,17 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                         elevation: 4,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SettingPage(),
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const SettingPage(),
+                            //   ),
+                            // );
+                            showDialog(
+                              context: context,
+                              builder: (context) => const AlertDialog(
+                                title: Text('設定'),
+                                content: Text('設定はまだ作成中です'),
                               ),
                             );
                           },
