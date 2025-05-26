@@ -8,27 +8,40 @@ class PCRestrictionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'このアプリはモバイルデバイスでのみ利用可能です',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              '以下のQRコードをスマートフォンで読み取ってください',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
-            QrImageView(
-              data: Uri.base.toString(),
-              version: QrVersions.auto,
-              size: 200.0,
-            ),
-          ],
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 400),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.warning_amber_rounded,
+                size: 80,
+                color: Colors.orange,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'このアプリはモバイル端末専用です',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                '以下のQRコードをスマートフォンで読み取って\n'
+                'アプリにアクセスしてください',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 30),
+              QrImageView(
+                data: 'https://hana-score.web.app',
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
