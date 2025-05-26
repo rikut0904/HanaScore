@@ -49,9 +49,9 @@ class KoiKoi {
         return;
       }
       RuleUI.threeLight(ref, context);
-    } else if (rule == '花見で一杯(5点)') {
+    } else if (rule == '花見で一杯\n(5点)') {
       atherFive(ref, rule);
-    } else if (rule == '月見で一杯(5点)') {
+    } else if (rule == '月見で一杯\n(5点)') {
       atherFive(ref, rule);
     } else if (rule == '猪鹿蝶(5点)') {
       if (ruleList.containsKey('タネ(1点)')) {
@@ -62,8 +62,8 @@ class KoiKoi {
       }
       RuleUI.atherFiveEx(ref, context, rule);
     } else if (rule == '赤短(5点)' || rule == '青短(5点)') {
-      if (ruleList.containsKey('赤短・青短(10点)')) {
-        ErrorUI.errorDialog(context, '赤短・青短(10点)');
+      if (ruleList.containsKey('赤短・青短\n(10点)')) {
+        ErrorUI.errorDialog(context, '赤短・青短\n(10点)');
         return;
       }
       if (ruleList.containsKey('タン(1点)')) {
@@ -73,22 +73,21 @@ class KoiKoi {
         ref.read(ruleProvider.notifier).state = ruleList;
       }
       RuleUI.atherFiveEx(ref, context, rule);
-    } else if (rule == '赤短・青短(10点)') {
-      int num = 0;
-      if (rule == '赤短(5点)' && rule == '青短(5点)') {
-        num = ruleList['赤短(5点)']!;
-        num += ruleList['青短(5点)']!;
-        ruleList.remove('赤短(5点)');
-        ruleList.remove('青短(5点)');
-      } else if (rule == '赤短(5点)') {
-        num = ruleList['赤短(5点)']!;
-        ruleList.remove('赤短(5点)');
-      } else if (rule == '青短(5点)') {
-        num = ruleList['青短(5点)']!;
-        ruleList.remove('青短(5点)');
+    } else if (rule == '赤短・青短\n(10点)') {
+      if (ruleList.containsKey('赤短(5点)') || ruleList.containsKey('青短(5点)')) {
+        int num = 0;
+        if (ruleList.containsKey('赤短(5点)')) {
+          num += ruleList['赤短(5点)']!;
+          ruleList.remove('赤短(5点)');
+        }
+        if (ruleList.containsKey('青短(5点)')) {
+          num += ruleList['青短(5点)']!;
+          ruleList.remove('青短(5点)');
+        }
+        ref.read(addScoreProvider.notifier).state -= num;
+        ref.read(ruleProvider.notifier).state = ruleList;
       }
-      ref.read(addScoreProvider.notifier).state -= num;
-      ref.read(ruleProvider.notifier).state = ruleList;
+      RuleUI.atherTenEx(ref, context, rule);
     } else if (rule == 'タネ(1点)') {
       if (ruleList.containsKey('猪鹿蝶(5点)')) {
         ErrorUI.errorDialog(context, '猪鹿蝶(5点)');
@@ -102,8 +101,8 @@ class KoiKoi {
       } else if (ruleList.containsKey('青短(5点)')) {
         ErrorUI.errorDialog(context, '青短(5点)');
         return;
-      } else if (ruleList.containsKey('赤短・青短(10点)')) {
-        ErrorUI.errorDialog(context, '赤短・青短(10点)');
+      } else if (ruleList.containsKey('赤短・青短\n(10点)')) {
+        ErrorUI.errorDialog(context, '赤短・青短\n(10点)');
         return;
       }
       RuleUI.atherOneEx(ref, context, rule);
