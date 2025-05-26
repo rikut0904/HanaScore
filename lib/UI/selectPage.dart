@@ -13,7 +13,7 @@ class SelectPage extends ConsumerStatefulWidget {
   ConsumerState<SelectPage> createState() => _SelectPageState();
 }
 
-  class _SelectPageState extends ConsumerState<SelectPage> {
+class _SelectPageState extends ConsumerState<SelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
