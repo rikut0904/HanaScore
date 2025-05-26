@@ -11,12 +11,12 @@ class RuleUI {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('四光'),
-          content: const Text('柳が入っていますか？'),
+          content: const Text('柳が入っていませんか？'),
           actions: [
             ElevatedButton(
               onPressed: () {
-                ref.read(addScoreProvider.notifier).state += 8;
-                ruleList['四光(8点)'] = 8;
+                ref.read(addScoreProvider.notifier).state += 7;
+                ruleList['四光(8点)'] = 7;
                 ref.read(ruleProvider.notifier).state = ruleList;
                 Navigator.pop(context);
               },
@@ -24,8 +24,8 @@ class RuleUI {
             ),
             ElevatedButton(
               onPressed: () {
-                ref.read(addScoreProvider.notifier).state += 7;
-                ruleList['四光(8点)'] = 7;
+                ref.read(addScoreProvider.notifier).state += 8;
+                ruleList['四光(8点)'] = 8;
                 ref.read(ruleProvider.notifier).state = ruleList;
                 Navigator.pop(context);
               },
@@ -44,17 +44,8 @@ class RuleUI {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('三光'),
-          content: const Text('柳が入っていますか？'),
+          content: const Text('柳が入っていませんか？'),
           actions: [
-            ElevatedButton(
-              onPressed: () {
-                ref.read(addScoreProvider.notifier).state += 5;
-                ruleList['三光(5点)'] = 5;
-                ref.read(ruleProvider.notifier).state = ruleList;
-                Navigator.pop(context);
-              },
-              child: const Text('いいえ'),
-            ),
             ElevatedButton(
               onPressed: () {
                 showDialog(
@@ -75,6 +66,15 @@ class RuleUI {
                     );
                   },
                 );
+              },
+              child: const Text('いいえ'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(addScoreProvider.notifier).state += 5;
+                ruleList['三光(5点)'] = 5;
+                ref.read(ruleProvider.notifier).state = ruleList;
+                Navigator.pop(context);
               },
               child: const Text('はい'),
             ),
@@ -103,7 +103,7 @@ class RuleUI {
             ElevatedButton(
               onPressed: () {
                 ref.read(addScoreProvider.notifier).state += (10 + paperNum);
-                ruleList['赤短・青短(10点)'] = 10 + paperNum;
+                ruleList['赤短・青短\n(10点)'] = 10 + paperNum;
                 ref.read(ruleProvider.notifier).state = ruleList;
                 Navigator.pop(context);
               },
