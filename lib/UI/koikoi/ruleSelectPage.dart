@@ -61,8 +61,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('警告'),
-                                content: const Text(
-                                    'ポイントが0です。\n役を選択してください'),
+                                content: const Text('ポイントが0です。\n役を選択してください'),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
