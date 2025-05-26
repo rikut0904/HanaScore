@@ -7,10 +7,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'dart:io' show Platform;
 
 bool isMobileDevice() {
-  if (!kIsWeb) {
-    return Platform.isAndroid || Platform.isIOS;
+  if (kIsWeb) {
+    return false;
   }
-  return false;
+  return Platform.isAndroid || Platform.isIOS;
 }
 
 void main() async {
@@ -53,9 +53,12 @@ class _MyAppState extends ConsumerState<MyApp> {
             textScaler: TextScaler.linear(1.0),
           ),
           child: Builder(
-            builder: (context) => kIsWeb && !isMobileDevice()
-                ? const PCRestrictionPage()
-                : const SelectPage(),
+            builder: (context) {
+              if (kIsWeb && !isMobileDevice()) {
+                return const PCRestrictionPage();
+              }
+              return const SelectPage();
+            },
           ),
         );
       },
