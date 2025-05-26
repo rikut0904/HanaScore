@@ -16,14 +16,12 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
   Widget build(BuildContext context) {
     int playerScore = ref.watch(playerScoreProvider);
     int opponentScore = ref.watch(opponentScoreProvider);
-    int month = ref.watch(monthProvider);
-
     final size = MediaQuery.of(context).size;
     final padding = MediaQuery.of(context).padding;
     final topPadding = padding.top + 20;
     final fieldHeight = size.height * 0.35;
 
-    if (month == 13) {
+    if (ref.watch(monthProvider) == 13) {
       return AlertDialog(
         title: const Text('終了'),
         content: const Text('12月でゲームは終了です。'),
@@ -70,7 +68,7 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text('警告'),
-                              content: const Text('スコアが0です。\n次の月に進んで大丈夫ですか？'),
+                              content: const Text('引分けです。\n次の月に進んで大丈夫ですか？'),
                               actions: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -90,9 +88,8 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        month++;
                                         ref.read(monthProvider.notifier).state =
-                                            month;
+                                            ref.watch(monthProvider) + 1;
                                         ref
                                             .read(addScoreProvider.notifier)
                                             .state = 0;
@@ -114,48 +111,10 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                             );
                           },
                         );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text(''),
-                              content: const Text('次の月に進んで大丈夫ですか？'),
-                              actions: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        month++;
-                                        ref.read(monthProvider.notifier).state =
-                                            month;
-                                        ref
-                                            .read(addScoreProvider.notifier)
-                                            .state = 0;
-                                        ref.read(ruleProvider.notifier).state =
-                                            {};
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('いいえ'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('はい'),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          },
-                        );
                       }
                     },
                     child: const Text(
-                      '次のターン',
+                      '引分け',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -185,7 +144,7 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                 ),
                 const SizedBox(width: 2.0),
                 Text(
-                  '現在の月：$month',
+                  '現在の月：${ref.watch(monthProvider)}',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,

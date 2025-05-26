@@ -5,7 +5,8 @@ import 'package:hana_score/logic/koikoi.dart';
 import 'package:hana_score/state/koikoiState.dart';
 
 class RuleSelectPage extends ConsumerStatefulWidget {
-  const RuleSelectPage({super.key});
+  final int month;
+  const RuleSelectPage({super.key, required this.month});
 
   @override
   ConsumerState<RuleSelectPage> createState() => _RuleSelectPageState();
@@ -41,27 +42,60 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
             children: [
               Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back,
+                        color: Colors.black, size: 24),
+                  ),
+                  const SizedBox(width: 5.0),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ElevatedButton(
                       onPressed: () {
                         int addScore = ref.watch(addScoreProvider);
-                        if (addScore >= 7) {
-                          addScore *= 2;
-                        }
-                        final winner = ref.watch(winnerProvider);
-                        if (winner) {
-                          ref.read(playerScoreProvider.notifier).state +=
-                              addScore;
-                          ref.read(opponentScoreProvider.notifier).state -=
-                              addScore;
+                        if (addScore == 0) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('警告'),
+                                content: const Text(
+                                    'ポイントが0です。\n役を選択してください'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         } else {
-                          ref.read(opponentScoreProvider.notifier).state +=
-                              addScore;
-                          ref.read(playerScoreProvider.notifier).state -=
-                              addScore;
+                          if (addScore >= 7) {
+                            addScore *= 2;
+                          }
+                          final winner = ref.watch(winnerProvider);
+                          if (winner) {
+                            ref.read(playerScoreProvider.notifier).state +=
+                                addScore;
+                            ref.read(opponentScoreProvider.notifier).state -=
+                                addScore;
+                          } else {
+                            ref.read(opponentScoreProvider.notifier).state +=
+                                addScore;
+                            ref.read(playerScoreProvider.notifier).state -=
+                                addScore;
+                          }
+                          ref.read(monthProvider.notifier).state =
+                              widget.month + 1;
+                          ref.read(addScoreProvider.notifier).state = 0;
+                          ref.read(ruleProvider.notifier).state = {};
+                          Navigator.pop(context);
                         }
-                        Navigator.pop(context);
                       },
                       child: const Text(
                         '役の入力を終わる',
@@ -69,7 +103,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16.0),
+                  const SizedBox(width: 5.0),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
