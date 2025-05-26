@@ -36,7 +36,7 @@ class PCRestrictionPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               QrImageView(
-                data: 'https://hana-score.web.app',
+                data: 'https://hanascore.web.app',
                 version: QrVersions.auto,
                 size: 200.0,
               ),
