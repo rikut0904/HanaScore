@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/UI/selectPage.dart';
 import 'package:hana_score/UI/pc_restriction_page.dart';
@@ -8,7 +8,10 @@ import 'dart:io' show Platform;
 
 bool isMobileDevice() {
   if (kIsWeb) {
-    return false;
+    // Webプラットフォームの場合、UserAgentをチェック
+    final userAgent = defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS;
+    return userAgent;
   }
   return Platform.isAndroid || Platform.isIOS;
 }
@@ -47,19 +50,15 @@ class _MyAppState extends ConsumerState<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
+      home: kIsWeb && !isMobileDevice()
+          ? const PCRestrictionPage()
+          : const SelectPage(),
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             textScaler: TextScaler.linear(1.0),
           ),
-          child: Builder(
-            builder: (context) {
-              if (kIsWeb && !isMobileDevice()) {
-                return const PCRestrictionPage();
-              }
-              return const SelectPage();
-            },
-          ),
+          child: child ?? const SizedBox(),
         );
       },
     );
