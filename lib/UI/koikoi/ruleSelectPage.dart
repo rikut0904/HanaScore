@@ -117,6 +117,10 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 5),
+              const Text('※ポイントが7点以上の場合は2倍になります。',
+                  style: TextStyle(fontSize: 16, color: Colors.black)),
+              const SizedBox(height: 5),
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
