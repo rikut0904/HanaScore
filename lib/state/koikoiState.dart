@@ -10,7 +10,7 @@ final opponentScoreProvider = StateProvider<int>((ref) => 50);
 // 追加スコア
 final addScoreProvider = StateProvider<int>((ref) => 0);
 
-// 勝者フラグ（true: プレイヤー、false: 相手）
+// 各ターン勝者フラグ（true: プレイヤー、false: 相手）
 final winnerProvider = StateProvider<bool>((ref) => true);
 
 // 役のリスト
@@ -20,5 +20,5 @@ final ruleProvider = StateProvider<Map<String, int>>((ref) => {});
 final monthProvider = StateProvider<int>((ref) => 1);
 
 // ユーザー名
-final userAProvider = StateProvider<String>((ref) => "");
-final userBProvider = StateProvider<String>((ref) => "");
+final userAProvider = StateProvider<String>((ref) => "初期値A");
+final userBProvider = StateProvider<String>((ref) => "初期値B");
