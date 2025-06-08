@@ -19,36 +19,6 @@ final ruleProvider = StateProvider<Map<String, int>>((ref) => {});
 // 現在の月
 final monthProvider = StateProvider<int>((ref) => 1);
 
-// スコア計算用のプロバイダー
-final scoreCalculatorProvider = Provider<ScoreCalculator>((ref) {
-  return ScoreCalculator(ref);
-});
-
-// スコア計算クラス
-class ScoreCalculator {
-  final Ref ref;
-
-  ScoreCalculator(this.ref);
-
-  void calculateScore() {
-    final addScore = ref.read(addScoreProvider);
-    final winner = ref.read(winnerProvider);
-    final finalScore = addScore >= 7 ? addScore * 2 : addScore;
-
-    if (winner) {
-      ref.read(playerScoreProvider.notifier).state += finalScore;
-      ref.read(opponentScoreProvider.notifier).state -= finalScore;
-    } else {
-      ref.read(opponentScoreProvider.notifier).state += finalScore;
-      ref.read(playerScoreProvider.notifier).state -= finalScore;
-    }
-  }
-
-  void resetGame() {
-    ref.read(monthProvider.notifier).state = 1;
-    ref.read(addScoreProvider.notifier).state = 0;
-    ref.read(ruleProvider.notifier).state = {};
-    ref.read(playerScoreProvider.notifier).state = 50;
-    ref.read(opponentScoreProvider.notifier).state = 50;
-  }
-}
+// ユーザー名
+final userAProvider = StateProvider<String>((ref) => "");
+final userBProvider = StateProvider<String>((ref) => "");

@@ -10,7 +10,7 @@ class KoiKoi {
 
     // 役の重複チェック
     if (ruleList.containsKey(rule)) {
-      ErrorUI.errorDialog(context, rule);
+      ErrorUI.errorDialog(context, rule, ref);
       return;
     }
 
@@ -31,10 +31,10 @@ class KoiKoi {
       ref.read(ruleProvider.notifier).state = ruleList;
     } else if (rule == '四光(8点)') {
       if (ruleList.containsKey('五光(10点)')) {
-        ErrorUI.errorDialog(context, '五光(10点)');
+        ErrorUI.errorDialog(context, '五光(10点)', ref);
         return;
       }
-      if (ruleList.containsKey('三光(5点)')) {
+      if (ruleList.containsKey('三光(5点)')) { 
         ruleList.remove('三光(5点)');
         ref.read(addScoreProvider.notifier).state -= 5;
         ref.read(ruleProvider.notifier).state = ruleList;
@@ -42,10 +42,10 @@ class KoiKoi {
       RuleUI.fourLight(ref, context);
     } else if (rule == '三光(5点)') {
       if (ruleList.containsKey('五光(10点)')) {
-        ErrorUI.errorDialog(context, '五光(10点)');
+        ErrorUI.errorDialog(context, '五光(10点)', ref);
         return;
       } else if (ruleList.containsKey('四光(8点)')) {
-        ErrorUI.errorDialog(context, '四光(8点)');
+        ErrorUI.errorDialog(context, '四光(8点)', ref);
         return;
       }
       RuleUI.threeLight(ref, context);
@@ -63,7 +63,7 @@ class KoiKoi {
       RuleUI.atherFiveEx(ref, context, rule);
     } else if (rule == '赤短(5点)' || rule == '青短(5点)') {
       if (ruleList.containsKey('赤短・青短\n(10点)')) {
-        ErrorUI.errorDialog(context, '赤短・青短\n(10点)');
+        ErrorUI.errorDialog(context, '赤短・青短\n(10点)', ref);
         return;
       }
       if (ruleList.containsKey('タン(1点)')) {
@@ -90,19 +90,19 @@ class KoiKoi {
       RuleUI.atherTenEx(ref, context, rule);
     } else if (rule == 'タネ(1点)') {
       if (ruleList.containsKey('猪鹿蝶(5点)')) {
-        ErrorUI.errorDialog(context, '猪鹿蝶(5点)');
+        ErrorUI.errorDialog(context, '猪鹿蝶(5点)', ref);
         return;
       }
       RuleUI.atherOneEx(ref, context, rule);
     } else if (rule == 'タン(1点)') {
       if (ruleList.containsKey('赤短(5点)')) {
-        ErrorUI.errorDialog(context, '赤短(5点)');
+        ErrorUI.errorDialog(context, '赤短(5点)', ref);
         return;
       } else if (ruleList.containsKey('青短(5点)')) {
-        ErrorUI.errorDialog(context, '青短(5点)');
+        ErrorUI.errorDialog(context, '青短(5点)', ref);
         return;
       } else if (ruleList.containsKey('赤短・青短\n(10点)')) {
-        ErrorUI.errorDialog(context, '赤短・青短\n(10点)');
+        ErrorUI.errorDialog(context, '赤短・青短\n(10点)', ref);
         return;
       }
       RuleUI.atherOneEx(ref, context, rule);
