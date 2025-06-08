@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hana_score/UI/koikoi/koikoiResult.dart';
 import 'package:hana_score/state/koikoiState.dart';
 import 'package:hana_score/UI/koikoi/koikoiField.dart';
 
@@ -20,22 +21,6 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
     final padding = MediaQuery.of(context).padding;
     final topPadding = padding.top + 20;
     final fieldHeight = size.height * 0.35;
-
-    if (ref.watch(monthProvider) == 13) {
-      return AlertDialog(
-        title: const Text('終了'),
-        content: const Text('12月でゲームは終了です。'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      );
-    }
 
     return Scaffold(
       body: SafeArea(
@@ -66,49 +51,75 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('警告'),
-                              content: const Text('引分けです。\n次の月に進んで大丈夫ですか？'),
-                              actions: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        'いいえ',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                            return ref.read(monthProvider) == 12
+                                ? AlertDialog(
+                                    title: const Text('終了'),
+                                    content: const Text('12月でゲームは終了です。'),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FinalRewardPage(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text('最終特典を表示'),
                                       ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        ref.read(monthProvider.notifier).state =
-                                            ref.watch(monthProvider) + 1;
-                                        ref
-                                            .read(addScoreProvider.notifier)
-                                            .state = 0;
-                                        ref.read(ruleProvider.notifier).state =
-                                            {};
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        'はい',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    ],
+                                  )
+                                : AlertDialog(
+                                    title: const Text('警告'),
+                                    content:
+                                        const Text('引分けです。\n次の月に進んで大丈夫ですか？'),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              'いいえ',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              ref
+                                                  .read(monthProvider.notifier)
+                                                  .state = ref
+                                                      .watch(monthProvider) +
+                                                  1;
+                                              ref
+                                                  .read(
+                                                      addScoreProvider.notifier)
+                                                  .state = 0;
+                                              ref
+                                                  .read(ruleProvider.notifier)
+                                                  .state = {};
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              'はい',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
+                                    ],
+                                  );
                           },
                         );
                       }

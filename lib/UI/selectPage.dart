@@ -58,7 +58,7 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const KoiKoiPage(),
+                                    builder: (context) => KoiKoiPage(),
                                   ),
                                 );
                               },
