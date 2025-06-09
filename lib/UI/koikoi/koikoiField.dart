@@ -20,10 +20,9 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
       width: double.infinity,
       height: 300,
       decoration: BoxDecoration(
-        color:
-            widget.isPlayer
-                ? Colors.blue.withAlpha(26)
-                : Colors.red.withAlpha(26),
+        color: widget.isPlayer
+            ? Colors.blue.withAlpha(26)
+            : Colors.red.withAlpha(26),
         border: Border.all(
           color: widget.isPlayer ? Colors.blue : Colors.red,
           width: 2,
@@ -36,13 +35,35 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
           Positioned(
             top: 10,
             right: 20,
-            child: Text(
-              '${widget.score}点',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: widget.isPlayer ? Colors.blue : Colors.red,
-              ),
+            child: Row(
+              children: [
+                widget.isPlayer
+                    ? Text(
+                        ref.read(userAProvider),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      )
+                    : Text(
+                        ref.read(userBProvider),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                const SizedBox(width: 100),
+                Text(
+                  '${widget.score}点',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: widget.isPlayer ? Colors.blue : Colors.red,
+                  ),
+                ),
+              ],
             ),
           ),
           Center(
@@ -56,9 +77,8 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder:
-                        (context) =>
-                            RuleSelectPage(month: ref.watch(monthProvider)),
+                    builder: (context) =>
+                        RuleSelectPage(month: ref.watch(monthProvider)),
                   ),
                 );
               },

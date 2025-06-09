@@ -7,6 +7,14 @@ class PCRestrictionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Image.asset(
+          'assets/HanaScoreLogo.png',
+          height: 40,
+          fit: BoxFit.contain,
+        ),
+      ),
       body: Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 400),
