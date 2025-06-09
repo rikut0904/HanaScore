@@ -61,7 +61,19 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  FinalRewardPage(),
+                                                  FinalRewardPage(
+                                                      winnerPlayer: ref.read(
+                                                                  playerScoreProvider) >
+                                                              ref.read(
+                                                                  opponentScoreProvider)
+                                                          ? ref.read(
+                                                              userAProvider)
+                                                          : ref.read(playerScoreProvider) ==
+                                                                  ref.read(
+                                                                      opponentScoreProvider)
+                                                              ? '引分け'
+                                                              : ref.read(
+                                                                  userBProvider)),
                                             ),
                                           );
                                         },
@@ -142,6 +154,9 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                       ref.read(ruleProvider.notifier).state = {};
                       ref.read(playerScoreProvider.notifier).state = 50;
                       ref.read(opponentScoreProvider.notifier).state = 50;
+                      ref.read(winnerProvider.notifier).state = true;
+                      ref.read(userAProvider.notifier).state = "初期値A";
+                      ref.read(userBProvider.notifier).state = "初期値B";
                       Navigator.of(context).pop();
                     },
                     child: const Text(

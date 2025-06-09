@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/UI/koikoiPage.dart';
 import 'package:hana_score/UI/helpPage.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:hana_score/state/koikoiState.dart';
 
 class SelectPage extends ConsumerStatefulWidget {
   const SelectPage({super.key});
@@ -18,9 +19,10 @@ class _SelectPageState extends ConsumerState<SelectPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text(
-          'HanaScore',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        title: Image.asset(
+          'assets/HanaScoreLogo.png',
+          height: 40,
+          fit: BoxFit.contain,
         ),
       ),
       body: LayoutBuilder(
@@ -53,12 +55,92 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 debugPrint('こいこいボタンがタップされました');
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => KoiKoiPage(),
+                                final TextEditingController playerAController =
+                                    TextEditingController();
+                                final TextEditingController playerBController =
+                                    TextEditingController();
+
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('こいこいを始める'),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'プレイヤー1と2の名前を入力してください',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextField(
+                                          controller: playerAController,
+                                          decoration: const InputDecoration(
+                                            labelText: 'プレイヤー1の名前',
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        TextField(
+                                          controller: playerBController,
+                                          decoration: const InputDecoration(
+                                            labelText: 'プレイヤー2の名前',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('キャンセル'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          if (playerAController
+                                                  .text.isNotEmpty &&
+                                              playerBController
+                                                  .text.isNotEmpty) {
+                                            ref
+                                                .read(userAProvider.notifier)
+                                                .state = playerAController.text;
+                                            ref
+                                                .read(userBProvider.notifier)
+                                                .state = playerBController.text;
+                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const KoiKoiPage(),
+                                              ),
+                                            );
+                                          } else {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: Text('エラー'),
+                                                content:
+                                                    Text('プレイヤー名を入力してください'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: const Text('開始する'),
+                                      ),
+                                    ],
                                   ),
                                 );
                               },
