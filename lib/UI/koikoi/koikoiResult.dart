@@ -16,7 +16,11 @@ class _FinalRewardPageState extends ConsumerState<FinalRewardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HanaScore'),
+        title: Image.asset(
+          'assets/HanaScoreLogo.png',
+          height: 40,
+          fit: BoxFit.contain,
+        ),
       ),
       body: Center(
         child: Column(
@@ -31,7 +35,7 @@ class _FinalRewardPageState extends ConsumerState<FinalRewardPage> {
                     children: [
                       const Icon(Icons.emoji_events,
                           size: 100, color: Colors.yellow),
-                      const SizedBox(height: 20),
+                      const SizedBox(width: 20),
                       const Text('引分けです',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
@@ -46,7 +50,7 @@ class _FinalRewardPageState extends ConsumerState<FinalRewardPage> {
                         children: [
                           const Icon(Icons.emoji_events,
                               size: 100, color: Colors.yellow),
-                          const SizedBox(height: 20),
+                          const SizedBox(width: 20),
                           Text(
                             '勝者は${widget.winnerPlayer}です！',
                             style: const TextStyle(
