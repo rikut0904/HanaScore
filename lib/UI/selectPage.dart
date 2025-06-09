@@ -19,9 +19,10 @@ class _SelectPageState extends ConsumerState<SelectPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text(
-          'HanaScore',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        title: Image.asset(
+          'assets/HanaScoreLogo.png',
+          height: 40,
+          fit: BoxFit.contain,
         ),
       ),
       body: LayoutBuilder(
@@ -115,6 +116,24 @@ class _SelectPageState extends ConsumerState<SelectPage> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     const KoiKoiPage(),
+                                              ),
+                                            );
+                                          } else {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: Text('エラー'),
+                                                content:
+                                                    Text('プレイヤー名を入力してください'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
                                               ),
                                             );
                                           }
