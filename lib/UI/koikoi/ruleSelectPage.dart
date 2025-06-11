@@ -26,6 +26,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
     'タネ(1点)',
     'タン(1点)',
     'カス(1点)',
+    '削除'
   ];
 
   @override
