@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hana_score/UI/koikoi/ruleDelete.dart';
 import 'package:hana_score/UI/koikoi/ruleUI.dart';
 import 'package:hana_score/state/koikoiState.dart';
 import 'package:hana_score/UI/koikoi/errorUI.dart';
@@ -34,7 +35,7 @@ class KoiKoi {
         ErrorUI.errorDialog(context, '五光(10点)', ref);
         return;
       }
-      if (ruleList.containsKey('三光(5点)')) { 
+      if (ruleList.containsKey('三光(5点)')) {
         ruleList.remove('三光(5点)');
         ref.read(addScoreProvider.notifier).state -= 5;
         ref.read(ruleProvider.notifier).state = ruleList;
@@ -108,6 +109,13 @@ class KoiKoi {
       RuleUI.atherOneEx(ref, context, rule);
     } else if (rule == 'カス(1点)') {
       RuleUI.atherOneEx(ref, context, rule);
+    } else if (rule == '削除') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RuleDelete(),
+        ),
+      );
     } else {
       debugPrint('条件が一致しません');
     }
