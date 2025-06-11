@@ -115,7 +115,70 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                           "こいこいをする",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
-                        ))
+                        ),
+                      ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Transform.rotate(
+                          angle: widget.isPlayer ? 0 : 3.14159,
+                          child: AlertDialog(
+                            title: const Text('警告'),
+                            content: const Text('手札に同じ月が4枚ありましたか？？'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('いいえ'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  widget.isPlayer
+                                      ? (
+                                          ref
+                                              .read(
+                                                  playerScoreProvider.notifier)
+                                              .state += 6,
+                                          ref
+                                              .read(opponentScoreProvider
+                                                  .notifier)
+                                              .state -= 6
+                                        )
+                                      : (
+                                          ref
+                                              .read(opponentScoreProvider
+                                                  .notifier)
+                                              .state += 6,
+                                          ref
+                                              .read(
+                                                  playerScoreProvider.notifier)
+                                              .state -= 6
+                                        );
+                                  ref.read(monthProvider.notifier).state =
+                                      ref.watch(monthProvider) + 1;
+                                  ref.read(addScoreProvider.notifier).state = 0;
+                                  ref.read(ruleProvider.notifier).state = {};
+
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('はい'),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    '手札に同じ月が4枚ある!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
