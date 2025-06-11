@@ -67,25 +67,56 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
             ),
           ),
           Center(
-            child: ElevatedButton(
-              onPressed: () {
-                if (widget.isPlayer) {
-                  ref.read(winnerProvider.notifier).state = true;
-                } else {
-                  ref.read(winnerProvider.notifier).state = false;
-                }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        RuleSelectPage(month: ref.watch(monthProvider)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    if (widget.isPlayer) {
+                      ref.read(winnerProvider.notifier).state = true;
+                    } else {
+                      ref.read(winnerProvider.notifier).state = false;
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RuleSelectPage(month: ref.watch(monthProvider)),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'この月の勝者はこちらをタップ',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                );
-              },
-              child: const Text(
-                'この月の勝者はこちらをタップ',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+                ),
+                const SizedBox(height: 10),
+                (widget.isPlayer && ref.watch(koikoiPlayerProvider)) ||
+                        (!widget.isPlayer && ref.watch(koikoiOpponentProvider))
+                    ? Text(
+                        "こいこい",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: widget.isPlayer ? Colors.blue : Colors.red,
+                        ),
+                      )
+                    : ElevatedButton(
+                        onPressed: () {
+                          widget.isPlayer
+                              ? ref.read(koikoiPlayerProvider.notifier).state =
+                                  true
+                              : ref
+                                  .read(koikoiOpponentProvider.notifier)
+                                  .state = true;
+                        },
+                        child: const Text(
+                          "こいこいをする",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ))
+              ],
             ),
           ),
         ],

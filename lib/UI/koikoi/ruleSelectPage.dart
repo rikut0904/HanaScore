@@ -61,8 +61,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('警告'),
-                                content: const Text(
-                                    'ポイントが0です。\n役を選択してください'),
+                                content: const Text('ポイントが0です。\n役を選択してください'),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -80,11 +79,17 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                           }
                           final winner = ref.watch(winnerProvider);
                           if (winner) {
+                            if (ref.watch(koikoiPlayerProvider)) {
+                              addScore *= 2;
+                            }
                             ref.read(playerScoreProvider.notifier).state +=
                                 addScore;
                             ref.read(opponentScoreProvider.notifier).state -=
                                 addScore;
                           } else {
+                            if (ref.watch(koikoiOpponentProvider)) {
+                              addScore *= 2;
+                            }
                             ref.read(opponentScoreProvider.notifier).state +=
                                 addScore;
                             ref.read(playerScoreProvider.notifier).state -=
@@ -118,8 +123,16 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                 ],
               ),
               const SizedBox(height: 5),
-              const Text('※ポイントが7点以上の場合は2倍になります。',
-                  style: TextStyle(fontSize: 16, color: Colors.black)),
+              if ((isPlayer && ref.watch(koikoiOpponentProvider)) ||
+                  (!isPlayer && ref.watch(koikoiPlayerProvider))) ...[
+                const Text('相手がこいこいをしているため、ポイントが2倍になります'),
+                const SizedBox(height: 5),
+              ] else
+                const SizedBox(height: 5),
+              const Text(
+                '※ポイントが7点以上の場合は2倍になります。',
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
               const SizedBox(height: 5),
               Expanded(
                 child: LayoutBuilder(
