@@ -159,7 +159,6 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                                   ref.read(monthProvider.notifier).state =
                                       ref.watch(monthProvider) + 1;
                                   StateReset.resetState(ref);
-
                                   Navigator.pop(context);
                                 },
                                 child: const Text('はい'),
