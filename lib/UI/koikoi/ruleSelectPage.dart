@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/logic/koikoi.dart';
 import 'package:hana_score/state/koikoiState.dart';
+import 'package:hana_score/UI/koikoi/koikoiResult.dart';
 
 class RuleSelectPage extends ConsumerStatefulWidget {
   final int month;
@@ -80,7 +81,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                           }
                           final winner = ref.watch(winnerProvider);
                           if (winner) {
-                            if (ref.watch(koikoiPlayerProvider)) {
+                            if (ref.watch(koikoiOpponentProvider)) {
                               addScore *= 2;
                             }
                             ref.read(playerScoreProvider.notifier).state +=
@@ -88,7 +89,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                             ref.read(opponentScoreProvider.notifier).state -=
                                 addScore;
                           } else {
-                            if (ref.watch(koikoiOpponentProvider)) {
+                            if (ref.watch(koikoiPlayerProvider)) {
                               addScore *= 2;
                             }
                             ref.read(opponentScoreProvider.notifier).state +=
@@ -98,9 +99,45 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                           }
                           ref.read(monthProvider.notifier).state =
                               widget.month + 1;
-                          ref.read(addScoreProvider.notifier).state = 0;
-                          ref.read(ruleProvider.notifier).state = {};
-                          Navigator.pop(context);
+                          StateReset.resetState(ref);
+                          if (ref.watch(monthProvider) >= 13) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('終了'),
+                                  content: const Text('12月でゲームは終了です。'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FinalRewardPage(
+                                                    winnerPlayer: ref.read(
+                                                                playerScoreProvider) >
+                                                            ref.read(
+                                                                opponentScoreProvider)
+                                                        ? ref
+                                                            .read(userAProvider)
+                                                        : ref.read(playerScoreProvider) ==
+                                                                ref.read(
+                                                                    opponentScoreProvider)
+                                                            ? '引分け'
+                                                            : ref.read(
+                                                                userBProvider)),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text('結果発表！！！'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            Navigator.pop(context);
+                          }
                         }
                       },
                       child: const Text(

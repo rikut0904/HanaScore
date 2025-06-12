@@ -91,7 +91,7 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 (widget.isPlayer && ref.watch(koikoiPlayerProvider)) ||
                         (!widget.isPlayer && ref.watch(koikoiOpponentProvider))
                     ? Text(
@@ -117,7 +117,7 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 ElevatedButton(
                   onPressed: () {
                     showDialog(
@@ -158,8 +158,7 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                                         );
                                   ref.read(monthProvider.notifier).state =
                                       ref.watch(monthProvider) + 1;
-                                  ref.read(addScoreProvider.notifier).state = 0;
-                                  ref.read(ruleProvider.notifier).state = {};
+                                  StateReset.resetState(ref);
 
                                   Navigator.pop(context);
                                 },
