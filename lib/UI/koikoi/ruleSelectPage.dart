@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hana_score/UI/koikoi/ruleDelete.dart';
 import 'package:hana_score/logic/koikoi.dart';
 import 'package:hana_score/state/koikoiState.dart';
 import 'package:hana_score/UI/koikoi/koikoiResult.dart';
@@ -17,6 +18,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
   final List<String> rules = [
     '五光(10点)',
     '四光(8点)',
+    '雨四光(7点)',
     '三光(5点)',
     '花見で一杯\n(5点)',
     '月見で一杯\n(5点)',
@@ -26,8 +28,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
     '赤短・青短\n(10点)',
     'タネ(1点)',
     'タン(1点)',
-    'カス(1点)',
-    '削除'
+    'カス(1点)'
   ];
 
   @override
@@ -42,7 +43,9 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
           angle: isPlayer ? 0 : 3.14159, // プレイヤーの場合は0度、オポーネントの場合は180度
           child: Column(
             children: [
+              const SizedBox(height: 2),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
                     onPressed: () {
@@ -51,110 +54,65 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                     icon: const Icon(Icons.arrow_back,
                         color: Colors.black, size: 24),
                   ),
-                  const SizedBox(width: 5.0),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        int addScore = ref.watch(addScoreProvider);
-                        if (addScore == 0) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('警告'),
-                                content: const Text('ポイントが0です。\n役を選択してください'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else {
-                          if (addScore >= 7) {
-                            addScore *= 2;
-                          }
-                          final winner = ref.watch(winnerProvider);
-                          if (winner) {
-                            if (ref.watch(koikoiOpponentProvider)) {
-                              addScore *= 2;
-                            }
-                            ref.read(playerScoreProvider.notifier).state +=
-                                addScore;
-                            ref.read(opponentScoreProvider.notifier).state -=
-                                addScore;
-                          } else {
-                            if (ref.watch(koikoiPlayerProvider)) {
-                              addScore *= 2;
-                            }
-                            ref.read(opponentScoreProvider.notifier).state +=
-                                addScore;
-                            ref.read(playerScoreProvider.notifier).state -=
-                                addScore;
-                          }
-                          ref.read(monthProvider.notifier).state =
-                              widget.month + 1;
-                          StateReset.resetState(ref);
-                          if (ref.watch(monthProvider) >= 13) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('終了'),
-                                  content: const Text('12月でゲームは終了です。'),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                FinalRewardPage(
-                                                    winnerPlayer: ref.read(
-                                                                playerScoreProvider) >
-                                                            ref.read(
-                                                                opponentScoreProvider)
-                                                        ? ref
-                                                            .read(userAProvider)
-                                                        : ref.read(playerScoreProvider) ==
-                                                                ref.read(
-                                                                    opponentScoreProvider)
-                                                            ? '引分け'
-                                                            : ref.read(
-                                                                userBProvider)),
-                                          ),
-                                        );
-                                      },
-                                      child: const Text('結果発表！！！'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        }
-                      },
-                      child: const Text(
-                        '役の入力を終わる',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        ),
+                        onPressed: () {
+                          // 役の入力を終わるの処理
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              '役の入力を',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                            ),
+                            const SizedBox(height: 1),
+                            const Text(
+                              '終わる',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 5.0),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'ポイント: $point',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        ),
+                        onPressed: () {
+                          // 削除の処理
+                        },
+                        child: const Text(
+                          '削除',
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Text(
+                        'ポイント: $point',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
