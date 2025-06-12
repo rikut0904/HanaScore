@@ -151,14 +151,8 @@ class _FinalRewardPageState extends ConsumerState<FinalRewardPage>
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(monthProvider.notifier).state = 1;
-                  ref.read(addScoreProvider.notifier).state = 0;
-                  ref.read(ruleProvider.notifier).state = {};
-                  ref.read(playerScoreProvider.notifier).state = 50;
-                  ref.read(opponentScoreProvider.notifier).state = 50;
-                  ref.read(winnerProvider.notifier).state = true;
-                  ref.read(userAProvider.notifier).state = "初期値A";
-                  ref.read(userBProvider.notifier).state = "初期値B";
+                  StateReset.allResetState(ref);
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();

@@ -25,3 +25,26 @@ final monthProvider = StateProvider<int>((ref) => 1);
 // ユーザー名
 final userAProvider = StateProvider<String>((ref) => "初期値A");
 final userBProvider = StateProvider<String>((ref) => "初期値B");
+
+class StateReset {
+  static void resetState(WidgetRef ref) {
+    ref.read(addScoreProvider.notifier).state = 0;
+    ref.read(winnerProvider.notifier).state = true;
+    ref.read(koikoiPlayerProvider.notifier).state = false;
+    ref.read(koikoiOpponentProvider.notifier).state = false;
+    ref.read(ruleProvider.notifier).state = {};
+  }
+
+  static void allResetState(WidgetRef ref) {
+    ref.read(monthProvider.notifier).state = 1;
+    ref.read(addScoreProvider.notifier).state = 0;
+    ref.read(winnerProvider.notifier).state = true;
+    ref.read(koikoiPlayerProvider.notifier).state = false;
+    ref.read(koikoiOpponentProvider.notifier).state = false;
+    ref.read(ruleProvider.notifier).state = {};
+    ref.read(playerScoreProvider.notifier).state = 50;
+    ref.read(opponentScoreProvider.notifier).state = 50;
+    ref.read(userAProvider.notifier).state = "初期値A";
+    ref.read(userBProvider.notifier).state = "初期値B";
+  }
+}

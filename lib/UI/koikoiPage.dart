@@ -77,7 +77,7 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                                             ),
                                           );
                                         },
-                                        child: const Text('最終特典を表示'),
+                                        child: const Text('結果発表!!!'),
                                       ),
                                     ],
                                   )
@@ -111,13 +111,7 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                                                   .state = ref
                                                       .watch(monthProvider) +
                                                   1;
-                                              ref
-                                                  .read(
-                                                      addScoreProvider.notifier)
-                                                  .state = 0;
-                                              ref
-                                                  .read(ruleProvider.notifier)
-                                                  .state = {};
+                                              StateReset.resetState(ref);
                                               Navigator.of(context).pop();
                                             },
                                             child: Text(
@@ -149,14 +143,7 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      ref.read(monthProvider.notifier).state = 1;
-                      ref.read(addScoreProvider.notifier).state = 0;
-                      ref.read(ruleProvider.notifier).state = {};
-                      ref.read(playerScoreProvider.notifier).state = 50;
-                      ref.read(opponentScoreProvider.notifier).state = 50;
-                      ref.read(winnerProvider.notifier).state = true;
-                      ref.read(userAProvider.notifier).state = "初期値A";
-                      ref.read(userBProvider.notifier).state = "初期値B";
+                      StateReset.allResetState(ref);
                       Navigator.of(context).pop();
                     },
                     child: const Text(
