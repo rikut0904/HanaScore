@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "41216586734",
+    "project_id": "hanascore",
+    "storage_bucket": "hanascore.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41216586734:android:f2db49afee46d0d47214ff",
+        "android_client_info": {
+          "package_name": "com.example.hanaScore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_WZTjaqyH-judPPysH_pxN8bPFyhHZYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
