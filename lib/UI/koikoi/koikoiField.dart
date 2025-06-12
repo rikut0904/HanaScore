@@ -88,8 +88,9 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                     );
                   },
                   child: const Text(
-                    'この月の勝者はこちらをタップ',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'この月の勝者はこちら',
+                    style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -128,7 +129,7 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                           angle: widget.isPlayer ? 0 : 3.14159,
                           child: AlertDialog(
                             title: const Text('警告'),
-                            content: const Text('手札に同じ月が4枚ありましたか？？'),
+                            content: const Text('手札に同じ月が4枚ありますか？？'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
@@ -172,10 +173,7 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
                   },
                   child: Text(
                     '手札に同じ月が4枚ある!',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

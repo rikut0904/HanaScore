@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hana_score/UI/koikoi/ruleDelete.dart';
 import 'package:hana_score/UI/koikoi/ruleUI.dart';
 import 'package:hana_score/state/koikoiState.dart';
 import 'package:hana_score/UI/koikoi/errorUI.dart';
@@ -22,6 +21,12 @@ class KoiKoi {
         ref.read(addScoreProvider.notifier).state -= num;
         ref.read(ruleProvider.notifier).state = ruleList;
       }
+      if (ruleList.containsKey('雨四光(7点)')) {
+        final num = ruleList['雨四光(7点)']!;
+        ruleList.remove('雨四光(7点)');
+        ref.read(addScoreProvider.notifier).state -= num;
+        ref.read(ruleProvider.notifier).state = ruleList;
+      }
       if (ruleList.containsKey('三光(5点)')) {
         ruleList.remove('三光(5点)');
         ref.read(addScoreProvider.notifier).state -= 5;
@@ -40,7 +45,28 @@ class KoiKoi {
         ref.read(addScoreProvider.notifier).state -= 5;
         ref.read(ruleProvider.notifier).state = ruleList;
       }
-      RuleUI.fourLight(ref, context);
+      if (ruleList.containsKey('雨四光(7点)')) {
+        // Todo
+      }
+      ref.read(addScoreProvider.notifier).state += 8;
+      ruleList['四光(8点)'] = 8;
+      ref.read(ruleProvider.notifier).state = ruleList;
+    } else if (rule == '雨四光(7点)') {
+      if (ruleList.containsKey('五光(10点)')) {
+        ErrorUI.errorDialog(context, '五光(10点)', ref);
+        return;
+      }
+      if (ruleList.containsKey('三光(5点)')) {
+        ruleList.remove('三光(5点)');
+        ref.read(addScoreProvider.notifier).state -= 5;
+        ref.read(ruleProvider.notifier).state = ruleList;
+      }
+      if (ruleList.containsKey('四光(8点)')) {
+        //Todo
+      }
+      ref.read(addScoreProvider.notifier).state += 7;
+      ruleList['雨四光(7点)'] = 7;
+      ref.read(ruleProvider.notifier).state = ruleList;
     } else if (rule == '三光(5点)') {
       if (ruleList.containsKey('五光(10点)')) {
         ErrorUI.errorDialog(context, '五光(10点)', ref);
@@ -109,13 +135,6 @@ class KoiKoi {
       RuleUI.atherOneEx(ref, context, rule);
     } else if (rule == 'カス(1点)') {
       RuleUI.atherOneEx(ref, context, rule);
-    } else if (rule == '削除') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RuleDelete(),
-        ),
-      );
     } else {
       debugPrint('条件が一致しません');
     }
