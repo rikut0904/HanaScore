@@ -71,6 +71,7 @@ class _KoiKoiFieldState extends ConsumerState<KoiKoiField> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(height: 5),
                 ElevatedButton(
                   onPressed: () {
                     if (widget.isPlayer) {
