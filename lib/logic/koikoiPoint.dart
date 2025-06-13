@@ -6,24 +6,27 @@ import 'package:hana_score/state/koikoiState.dart';
 
 class KoiKoiPoint {
   static void point(
-      WidgetRef ref, BuildContext context, Map<String, int> ruleList) {
+      WidgetRef ref, BuildContext context, bool isPlayer, Map<String, int> ruleList) {
     int addScore = ref.watch(addScoreProvider);
     if (addScore == 0) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('警告'),
-            content: const Text('ポイントが0です。\n役を選択してください'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
+              return Transform.rotate(
+                angle: isPlayer ? 0 : 3.14159,
+                child: AlertDialog(
+                  title: const Text('警告'),
+                  content: const Text('ポイントが0です。\n役を選択してください'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
         },
       );
     } else {
