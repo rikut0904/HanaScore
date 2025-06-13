@@ -81,3 +81,13 @@ class KoiKoiPoint {
     }
   }
 }
+
+class Point {
+  static void point(WidgetRef ref, BuildContext context, int paperNum, String title) {
+    Map<String, int> ruleList = ref.watch(ruleProvider);
+    ref.read(addScoreProvider.notifier).state += (paperNum);
+    ruleList[title] = paperNum;
+    ref.read(ruleProvider.notifier).state = ruleList; 
+    Navigator.pop(context);
+  }
+}

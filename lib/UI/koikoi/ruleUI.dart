@@ -1,10 +1,12 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hana_score/logic/koikoiPoint.dart';
 import 'package:hana_score/state/koikoiState.dart';
 
 class RuleUI {
-  static Map<String, int> fourLightError(WidgetRef ref, BuildContext context, String rule, Map<String, int> ruleList) {
+  static Map<String, int> fourLightError(WidgetRef ref, BuildContext context,
+      String rule, Map<String, int> ruleList) {
     final isPlayer = ref.watch(winnerProvider);
     showDialog(
       context: context,
@@ -117,8 +119,6 @@ class RuleUI {
   }
 
   static void atherTenEx(WidgetRef ref, BuildContext context, String rule) {
-    int paperNum = 0;
-    Map<String, int> ruleList = ref.watch(ruleProvider);
     final isPlayer = ref.watch(winnerProvider);
     showDialog(
       context: context,
@@ -127,22 +127,43 @@ class RuleUI {
           angle: isPlayer ? 0 : 3.14159,
           child: AlertDialog(
             title: const Text('赤短・青短'),
-            content: const Text('短冊は何枚ありますか(赤短・青短除く)'),
             actions: [
-              TextField(
-                onChanged: (value) {
-                  paperNum = int.parse(value);
-                },
-                keyboardType: TextInputType.number,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(addScoreProvider.notifier).state += (10 + paperNum);
-                  ruleList['赤短・青短\n(10点)'] = 10 + paperNum;
-                  ref.read(ruleProvider.notifier).state = ruleList;
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('短冊札は何枚ありますか(赤短・青短除く)'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Point.point(ref, context, 11, '赤短・青短\n(10点)');
+                        },
+                        child: const Text('1枚'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Point.point(ref, context, 12, '赤短・青短\n(10点)');
+                        },
+                        child: const Text('2枚'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Point.point(ref, context, 13, '赤短・青短\n(10点)');
+                        },
+                        child: const Text('3枚'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Point.point(ref, context, 14, '赤短・青短\n(10点)');
+                        },
+                        child: const Text('4枚'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
@@ -154,8 +175,6 @@ class RuleUI {
   static void atherFiveEx(WidgetRef ref, BuildContext context, String rule) {
     String title = '';
     String content = '';
-    Map<String, int> ruleList = ref.watch(ruleProvider);
-    int paperNum = 0;
     final isPlayer = ref.watch(winnerProvider);
 
     if (rule == '猪鹿蝶(5点)') {
@@ -163,10 +182,10 @@ class RuleUI {
       content = 'タネ札は何枚ありますか(猪鹿蝶除く)';
     } else if (rule == '赤短(5点)') {
       title = '赤短';
-      content = 'タネ札は何枚ありますか(赤短除く)';
+      content = '短冊札は何枚ありますか(赤短除く)';
     } else if (rule == '青短(5点)') {
       title = '青短';
-      content = 'タネ札は何枚ありますか(青短除く)';
+      content = '短冊札は何枚ありますか(青短除く)';
     } else {
       title = '';
     }
@@ -180,21 +199,158 @@ class RuleUI {
             title: Text(title),
             content: Text(content),
             actions: [
-              TextField(
-                onChanged: (value) {
-                  paperNum = int.parse(value);
-                },
-                keyboardType: TextInputType.number,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(addScoreProvider.notifier).state += (5 + paperNum);
-                  ruleList[rule] = 5 + paperNum;
-                  ref.read(ruleProvider.notifier).state = ruleList;
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
+              title == '猪鹿蝶'
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 5, rule);
+                              },
+                              child: const Text('0枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 6, rule);
+                              },
+                              child: const Text('1枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 7, rule);
+                              },
+                              child: const Text('2枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 8, rule);
+                              },
+                              child: const Text('3枚'),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 9, rule);
+                              },
+                              child: const Text('4枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 10, rule);
+                              },
+                              child: const Text('5枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 11, rule);
+                              },
+                              child: const Text('6枚'),
+                            )
+                          ],
+                        ),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Text('※赤短・青短がいずれも3枚以上'),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('ある場合は'),
+                                TextButton(
+                                    onPressed: () {
+                                      RuleUI.atherTenEx(
+                                          ref, context, '赤短・青短\n(10点)');
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('こちら'))
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 10, rule);
+                              },
+                              child: const Text('短冊なし'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 11, rule);
+                              },
+                              child: const Text('1枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 12, rule);
+                              },
+                              child: const Text('2枚'),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 13, rule);
+                              },
+                              child: const Text('3枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 14, rule);
+                              },
+                              child: const Text('4枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 15, rule);
+                              },
+                              child: const Text('5枚'),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 16, rule);
+                              },
+                              child: const Text('6枚'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Point.point(ref, context, 17, rule);
+                              },
+                              child: const Text('7枚'),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
             ],
           ),
         );
@@ -205,23 +361,17 @@ class RuleUI {
   static void atherOneEx(WidgetRef ref, BuildContext context, String rule) {
     String title = '';
     String content = '';
-    Map<String, int> ruleList = ref.watch(ruleProvider);
-    int paperNum = 0;
-    int ruleNum = 0;
     final isPlayer = ref.watch(winnerProvider);
 
     if (rule == 'タネ(1点)') {
       title = 'タネ(1点)';
       content = 'タネ札は何枚ありますか';
-      ruleNum = 5;
     } else if (rule == 'タン(1点)') {
       title = 'タン(1点)';
-      content = 'タネ札は何枚ありますか';
-      ruleNum = 5;
+      content = '短冊札は何枚ありますか';
     } else if (rule == 'カス(1点)') {
       title = 'カス(1点)';
-      content = 'タネ札は何枚ありますか';
-      ruleNum = 10;
+      content = 'カス札は何枚ありますか';
     }
 
     showDialog(
@@ -233,45 +383,254 @@ class RuleUI {
             title: Text(title),
             content: Text(content),
             actions: [
-              TextField(
-                onChanged: (value) {
-                  paperNum = int.parse(value);
-                },
-                keyboardType: TextInputType.number,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (paperNum >= ruleNum) {
-                    paperNum -= (ruleNum - 1);
-                  } else if (paperNum < ruleNum) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Transform.rotate(
-                          angle: isPlayer ? 0 : 3.14159,
-                          child: AlertDialog(
-                            title: const Text('エラー'),
-                            content: Text('$ruleNum枚では$ruleは成立しません'),
-                            actions: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                    return;
-                  }
-                  ref.read(addScoreProvider.notifier).state += paperNum;
-                  ruleList[rule] = paperNum;
-                  ref.read(ruleProvider.notifier).state = ruleList;
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  title == 'タネ(1点)'
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Point.point(ref, context, 1, 'タネ(1点)');
+                                  },
+                                  child: const Text('5枚'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Point.point(ref, context, 2, 'タネ(1点)');
+                                  },
+                                  child: const Text('6枚'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Point.point(ref, context, 3, 'タネ(1点)');
+                                  },
+                                  child: const Text('7枚'),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Point.point(ref, context, 4, 'タネ(1点)');
+                                  },
+                                  child: const Text('8枚'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Point.point(ref, context, 5, 'タネ(1点)');
+                                  },
+                                  child: const Text('9枚'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      : title == 'タン(1点)'
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 1, 'タン(1点)');
+                                        },
+                                        child: const Text('5枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 2, 'タン(1点)');
+                                        },
+                                        child: const Text('6枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 3, 'タン(1点)');
+                                        },
+                                        child: const Text('7枚'),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 4, 'タン(1点)');
+                                        },
+                                        child: const Text('8枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 5, 'タン(1点)');
+                                        },
+                                        child: const Text('9枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 6, 'タン(1点)');
+                                        },
+                                        child: const Text('10枚'),
+                                      ),
+                                    ],
+                                  )
+                                ])
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 1, 'カス(1点)');
+                                        },
+                                        child: const Text('10枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 2, 'カス(1点)');
+                                        },
+                                        child: const Text('11枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 3, 'カス(1点)');
+                                        },
+                                        child: const Text('12枚'),
+                                      ),
+                                    ]),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 4, 'カス(1点)');
+                                        },
+                                        child: const Text('13枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 5, 'カス(1点)');
+                                        },
+                                        child: const Text('14枚'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Point.point(
+                                              ref, context, 6, 'カス(1点)');
+                                        },
+                                        child: const Text('15枚'),
+                                      ),
+                                    ]),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 7, 'カス(1点)');
+                                      },
+                                      child: const Text('16枚'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 8, 'カス(1点)');
+                                      },
+                                      child: const Text('17枚'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 9, 'カス(1点)');
+                                      },
+                                      child: const Text('18枚'),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 10, 'カス(1点)');
+                                      },
+                                      child: const Text('19枚'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 11, 'カス(1点)');
+                                      },
+                                      child: const Text('20枚'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 12, 'カス(1点)');
+                                      },
+                                      child: const Text('21枚'),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 13, 'カス(1点)');
+                                      },
+                                      child: const Text('22枚'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 14, 'カス(1点)');
+                                      },
+                                      child: const Text('23枚'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Point.point(ref, context, 15, 'カス(1点)');
+                                      },
+                                      child: const Text('24枚'),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                ],
               ),
             ],
           ),
