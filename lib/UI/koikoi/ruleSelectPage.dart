@@ -5,7 +5,6 @@ import 'package:hana_score/UI/koikoi/ruleDelete.dart';
 import 'package:hana_score/logic/koikoi.dart';
 import 'package:hana_score/logic/koikoiPoint.dart';
 import 'package:hana_score/state/koikoiState.dart';
-import 'package:hana_score/UI/koikoi/koikoiResult.dart';
 
 class RuleSelectPage extends ConsumerStatefulWidget {
   final int month;
