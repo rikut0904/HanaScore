@@ -179,8 +179,12 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
     double cardWidth,
     double cardHeight,
   ) {
+    final ruleList = ref.watch(ruleProvider);
     return Card(
       elevation: 4,
+      color: ruleList.containsKey(rule)
+          ? Theme.of(context).colorScheme.surface.withAlpha(100)
+          : Theme.of(context).colorScheme.surface.withAlpha(230),
       child: InkWell(
         onTap: () {
           KoiKoi.condition(ref, context, rule);
