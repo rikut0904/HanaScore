@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/state/koikoiState.dart';
 
 class RuleUI {
-  static void fourLight(WidgetRef ref, BuildContext context) {
-    Map<String, int> ruleList = ref.watch(ruleProvider);
+  static Map<String, int> fourLightError(WidgetRef ref, BuildContext context, String rule, Map<String, int> ruleList) {
     final isPlayer = ref.watch(winnerProvider);
     showDialog(
       context: context,
@@ -13,22 +12,43 @@ class RuleUI {
         return Transform.rotate(
           angle: isPlayer ? 0 : 3.14159,
           child: AlertDialog(
-            title: const Text('四光'),
-            content: const Text('柳が入っていませんか？'),
+            title: rule == '四光(8点)' ? const Text('四光') : const Text('雨四光'),
+            content: rule == '四光(8点)'
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('雨四光と共存ができません'),
+                      const Text('五光を選択しますか？')
+                    ],
+                  )
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('四光と共存ができません'),
+                      const Text('五光を選択しますか？')
+                    ],
+                  ),
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  ref.read(addScoreProvider.notifier).state += 7;
-                  ruleList['四光(8点)'] = 7;
-                  ref.read(ruleProvider.notifier).state = ruleList;
                   Navigator.pop(context);
                 },
                 child: const Text('いいえ'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(addScoreProvider.notifier).state += 8;
-                  ruleList['四光(8点)'] = 8;
+                  if (rule == '四光(8点)') {
+                    ruleList.remove('四光(8点)');
+                    ref.read(addScoreProvider.notifier).state -= 8;
+                    ref.read(ruleProvider.notifier).state = ruleList;
+                  } else if (rule == '雨四光(7点)') {
+                    ruleList.remove('雨四光(7点)');
+                    ref.read(addScoreProvider.notifier).state -= 7;
+                    ref.read(ruleProvider.notifier).state = ruleList;
+                  }
+                  ruleList['五光(10点)'] = 10;
                   ref.read(ruleProvider.notifier).state = ruleList;
                   Navigator.pop(context);
                 },
@@ -39,6 +59,7 @@ class RuleUI {
         );
       },
     );
+    return ruleList;
   }
 
   static void threeLight(WidgetRef ref, BuildContext context) {

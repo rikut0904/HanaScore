@@ -46,7 +46,7 @@ class KoiKoi {
         ref.read(ruleProvider.notifier).state = ruleList;
       }
       if (ruleList.containsKey('雨四光(7点)')) {
-        // Todo
+        ruleList = RuleUI.fourLightError(ref, context, '雨四光(7点)', ruleList);
       }
       ref.read(addScoreProvider.notifier).state += 8;
       ruleList['四光(8点)'] = 8;
@@ -62,7 +62,7 @@ class KoiKoi {
         ref.read(ruleProvider.notifier).state = ruleList;
       }
       if (ruleList.containsKey('四光(8点)')) {
-        //Todo
+        ruleList = RuleUI.fourLightError(ref, context, '四光(8点)', ruleList);
       }
       ref.read(addScoreProvider.notifier).state += 7;
       ruleList['雨四光(7点)'] = 7;
