@@ -289,19 +289,19 @@ class RuleUI {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 10, rule);
+                                Point.point(ref, context, 5, rule);
                               },
                               child: const Text('短冊なし'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 11, rule);
+                                Point.point(ref, context, 6, rule);
                               },
                               child: const Text('1枚'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 12, rule);
+                                Point.point(ref, context, 7, rule);
                               },
                               child: const Text('2枚'),
                             ),
@@ -313,19 +313,19 @@ class RuleUI {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 13, rule);
+                                Point.point(ref, context, 8, rule);
                               },
                               child: const Text('3枚'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 14, rule);
+                                Point.point(ref, context, 9, rule);
                               },
                               child: const Text('4枚'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 15, rule);
+                                Point.point(ref, context, 10, rule);
                               },
                               child: const Text('5枚'),
                             ),
@@ -337,13 +337,13 @@ class RuleUI {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 16, rule);
+                                Point.point(ref, context, 11, rule);
                               },
                               child: const Text('6枚'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Point.point(ref, context, 17, rule);
+                                Point.point(ref, context, 12, rule);
                               },
                               child: const Text('7枚'),
                             ),

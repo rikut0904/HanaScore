@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/state/koikoiState.dart';
 
 class RuleDelete extends ConsumerStatefulWidget {
-  const RuleDelete({super.key});
+  final bool isPlayer;
+  const RuleDelete({super.key, required this.isPlayer});
 
   @override
   ConsumerState<RuleDelete> createState() => _RuleDeleteState();
@@ -41,70 +42,89 @@ class _RuleDeleteState extends ConsumerState<RuleDelete> {
     }
 
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 32),
-            const Text('削除する役を選択してください'),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final cardWidth =
-                      (constraints.maxWidth - 48) / 4; // カードの幅を大きく
-                  final cardHeight = cardWidth * 1.5; // カードの高さを調整
+      body: SafeArea(
+        child: Transform.rotate(
+          angle: widget.isPlayer ? 0 : 3.14159, // プレイヤーの場合は0度、オポーネントの場合は180度
+          child: Column(
+            children: [
+              const SizedBox(height: 2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back,
+                        color: Colors.black, size: 24),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
+              const Text('削除する役を選択してください'),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final cardWidth =
+                        (constraints.maxWidth - 48) / 4; // カードの幅を大きく
+                    final cardHeight = cardWidth * 1.5; // カードの高さを調整
 
-                  return GridView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: cardWidth / cardHeight,
-                      crossAxisSpacing: 16.0,
-                      mainAxisSpacing: 16.0,
-                    ),
-                    itemCount: ruleKeys.length,
-                    itemBuilder: (context, index) {
-                      final rule = ruleKeys[index];
-                      return Card(
-                        elevation: 4,
-                        child: InkWell(
-                          onTap: () {
-                            // 役を削除し、スコアも減算
-                            final value = ruleMap[rule] ?? 0;
-                            final newRuleMap = Map<String, int>.from(ruleMap);
-                            newRuleMap.remove(rule);
-                            ref.read(ruleProvider.notifier).state = newRuleMap;
-                            ref.read(addScoreProvider.notifier).state -= value;
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.casino,
-                                  size: cardWidth * 0.5,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                SizedBox(height: cardHeight * 0.1),
-                                Text(
-                                  rule,
-                                  style: TextStyle(
-                                    fontSize: cardWidth * 0.25,
-                                    fontWeight: FontWeight.bold,
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: cardWidth / cardHeight,
+                        crossAxisSpacing: 16.0,
+                        mainAxisSpacing: 16.0,
+                      ),
+                      itemCount: ruleKeys.length,
+                      itemBuilder: (context, index) {
+                        final rule = ruleKeys[index];
+                        return Card(
+                          elevation: 4,
+                          child: InkWell(
+                            onTap: () {
+                              // 役を削除し、スコアも減算
+                              final value = ruleMap[rule] ?? 0;
+                              final newRuleMap = Map<String, int>.from(ruleMap);
+                              newRuleMap.remove(rule);
+                              ref.read(ruleProvider.notifier).state =
+                                  newRuleMap;
+                              ref.read(addScoreProvider.notifier).state -=
+                                  value;
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.casino,
+                                    size: cardWidth * 0.5,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                                  SizedBox(height: cardHeight * 0.1),
+                                  Text(
+                                    rule,
+                                    style: TextStyle(
+                                      fontSize: cardWidth * 0.25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
