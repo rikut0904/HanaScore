@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hana_score/UI/koikoi/ruleDelete.dart';
 import 'package:hana_score/logic/koikoi.dart';
+import 'package:hana_score/logic/koikoiPoint.dart';
 import 'package:hana_score/state/koikoiState.dart';
 import 'package:hana_score/UI/koikoi/koikoiResult.dart';
 
@@ -62,7 +63,8 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         ),
                         onPressed: () {
-                          // 役の入力を終わるの処理
+                          KoiKoiPoint.point(
+                              ref, context, ref.watch(ruleProvider));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +96,12 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         ),
                         onPressed: () {
-                          // 削除の処理
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RuleDelete(),
+                            ),
+                          );
                         },
                         child: const Text(
                           '削除',
