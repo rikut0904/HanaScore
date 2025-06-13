@@ -98,7 +98,9 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RuleDelete(),
+                              builder: (context) => RuleDelete(
+                                isPlayer: isPlayer,
+                              ),
                             ),
                           );
                         },
