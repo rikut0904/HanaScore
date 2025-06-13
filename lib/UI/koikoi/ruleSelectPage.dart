@@ -63,7 +63,7 @@ class _RuleSelectPageState extends ConsumerState<RuleSelectPage> {
                         ),
                         onPressed: () {
                           KoiKoiPoint.point(
-                              ref, context, ref.watch(ruleProvider));
+                              ref, context, isPlayer, ref.watch(ruleProvider));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

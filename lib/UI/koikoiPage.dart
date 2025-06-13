@@ -157,7 +157,7 @@ class _KoiKoiPageState extends ConsumerState<KoiKoiPage> {
                 ),
                 const SizedBox(width: 2.0),
                 Text(
-                  '現在の月：${ref.watch(monthProvider)}',
+                  '現在の月：${ref.watch(monthProvider)}月',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,

@@ -20,24 +20,28 @@ class _RuleDeleteState extends ConsumerState<RuleDelete> {
     // 役がなければ自動的に前の画面に戻る
     if (ruleMap.isEmpty) {
       // popで戻る際に、buildの戻り値として何かWidgetを返す必要があるため、空のContainerを返す
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        Navigator.pop(context);
-        await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('お知らせ'),
-            content: const Text('削除可能な役がありません。'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      });
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) async {
+          Navigator.pop(context);
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Transform.rotate(
+                angle: widget.isPlayer ? 0 : 3.14159,
+                child: AlertDialog(
+                  title: const Text('お知らせ'),
+                  content: const Text('削除可能な役がありません。'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       );
     }
 
